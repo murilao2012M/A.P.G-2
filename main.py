@@ -8,7 +8,7 @@ Melhorias:
   • Novas funcionalidades: impacto do tempo, impacto da fadiga, simulação de torneio, etc.
   • O código original foi mantido integralmente, apenas adaptado para console
 """
-sys.path.append(os.path.join(os.path.dirname(__file__), "modules"))
+
 import math
 import random
 import numpy as np
