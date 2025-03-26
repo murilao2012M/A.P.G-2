@@ -16,7 +16,6 @@ import random
 import numpy as np
 import pandas as pd
 import os
-import shap            # para interpretabilidade do modelo
 from PIL import Image
 import matplotlib.pyplot as plt
 from scipy.stats import poisson, nbinom, skellam
@@ -250,20 +249,6 @@ def train_model_xgboost(df):
     scores = cross_val_score(xgb_model, X, y, cv=cv, scoring='accuracy')
     sg.popup("Acurácia Cross-Val (5 folds):", f"{round(scores.mean(), 3)} +/- {round(scores.std(), 3)}")
     return xgb_model
-
-def explicar_modelo_shap(model, df, model_name=""):
-    X = df[['Gols Marcados', 'Gols Sofridos', 'Vitórias', 'Empates', 'Derrotas']]
-    sg.popup(f"\n-- Gerando explicações SHAP para {model_name} --")
-    explainer = shap.TreeExplainer(model)
-    shap_values = explainer.shap_values(X)
-    plt.figure(figsize=(6,4))
-    plt.title(f"SHAP Summary Bar - {model_name}")
-    shap.summary_plot(shap_values, X, plot_type="bar", show=False)
-    plt.show()
-    plt.figure(figsize=(6,4))
-    plt.title(f"SHAP Summary Plot - {model_name}")
-    shap.summary_plot(shap_values, X, show=False)
-    plt.show()
 
 # =============================================================================
 # REGISTRO E EXPORTAÇÃO DE SIMULAÇÕES
@@ -728,16 +713,6 @@ def main_gui_updated():
                 sg.popup_error("Escolha os times primeiro.")
             else:
                 team_a.simular_partida_monte_carlo(team_b, n_simulacoes=50)
-                
-        elif event == "Explicar_Modelos_(SHAP)":
-            if data is None:
-                sg.popup_error("Carregue os dados primeiro.")
-            else:
-                df_preparado = preparar_dados_para_treinamento(data['dados_partidas'])
-                modelo_rf = train_model_random_forest(df_preparado)
-                modelo_xgb = train_model_xgboost(df_preparado)
-                explicar_modelo_shap(modelo_rf, df_preparado, model_name="RandomForest")
-                explicar_modelo_shap(modelo_xgb, df_preparado, model_name="XGBoost")
                 
         elif event == "Simulacao_Variacao":
             if team_a is None or team_b is None:
