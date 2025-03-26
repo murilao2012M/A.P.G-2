@@ -1,0 +1,8 @@
+matplotlib
+numpy
+pandas
+PySimpleGUI
+scikit-learn
+xgboost
+scipy
+Pillow
