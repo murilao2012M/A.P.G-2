@@ -25,7 +25,6 @@ import sys
 from io import StringIO
 
 # Importa funções dos módulos (assegure-se de que esses módulos estejam na pasta "modules")
-from modules import gerar_ranking, gerar_relatorio
 from modules.calcular_fatores import ajustar_fatores
 from modules.calcular_recorrencia_gols import calcular_recorrencia_gols
 from modules.calculate_goal_market_probabilities import calculate_goal_market_probabilities
